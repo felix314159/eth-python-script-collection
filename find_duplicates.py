@@ -1,3 +1,4 @@
+import ast
 import os
 from collections import defaultdict
 from dataclasses import dataclass
@@ -16,6 +17,35 @@ def is_path_excluded(absolute_path, excluded_folders):
     """Check if path contains any excluded folder as a complete directory name."""
     path_parts = Path(absolute_path).parts
     return any(folder in path_parts for folder in excluded_folders)
+
+
+def find_classes_in_file(file_path):
+    """Extract all class names from a Python file using AST."""
+    classes = []
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read(), filename=file_path)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.ClassDef):
+                classes.append(node.name)
+    except (SyntaxError, UnicodeDecodeError) as e:
+        print(f"Error parsing {file_path}: {e}")
+
+    return classes
+
+
+def count_class_occurrences(all_items):
+    """Count occurrences of each class name across all Python files."""
+    class_occurrences = defaultdict(list)  # class_name -> [file_path, ...]
+
+    for item in all_items:
+        if item.is_file and item.name.endswith(".py"):
+            classes = find_classes_in_file(item.absolute_path)
+            for class_name in classes:
+                class_occurrences[class_name].append(item)
+
+    return class_occurrences
 
 
 def search_files_and_folders(basedir) -> list:
@@ -109,11 +139,6 @@ def main():
         if count == 1:
             continue
         print(f"Name: '{name}' - Occurrences: {count}")
-        # if count > 1 and count < 50:
-        #     print("  Duplicate paths:")
-        #     for file_info in files:
-        #         print(f"      Relative Path: {file_info.relative_path}")
-        # print()
 
     print("\n--- Folder Occurrences (Sorted by count, descending) ---")
     # Sort folder occurrences similarly
@@ -126,11 +151,26 @@ def main():
         if count == 1:
             continue
         print(f"Name: '{name}' - Occurrences: {count}")
-        # if count > 1 and count < 50:
-        #     print("  Duplicate paths:")
-        #     for folder_info in folders:
-        #         print(f"      Relative Path: {folder_info.relative_path}")
-        #     print()
+
+    # Count class occurrences
+    print("\n--- Class Occurrences (Sorted by count, descending) ---")
+    class_occurrences = count_class_occurrences(all_items)
+
+    # Sort class occurrences by count
+    sorted_class_occurrences = sorted(
+        class_occurrences.items(), key=lambda x: len(x[1]), reverse=True
+    )
+
+    for class_name, file_infos in sorted_class_occurrences:
+        count = len(file_infos)
+        if count > 1:  # Only show classes that appear more than once
+            print(f"Class '{class_name}' - Occurrences: {count}")
+            # Optionally show first few file paths
+            for i, file_info in enumerate(file_infos[:3]):  # Show first 3 paths
+                print(f"  - {file_info.relative_path}")
+            if count > 3:
+                print(f"  ... and {count - 3} more")
 
 
-main()
+if __name__ == "__main__":
+    main()
