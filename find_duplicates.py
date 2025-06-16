@@ -35,6 +35,24 @@ def find_classes_in_file(file_path):
     return classes
 
 
+def find_functions_in_file(file_path):
+    """Extract all function names from a Python file using AST, excluding dunder methods."""
+    functions = []
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            tree = ast.parse(f.read(), filename=file_path)
+
+        for node in ast.walk(tree):
+            if isinstance(node, ast.FunctionDef):
+                # Skip dunder methods (e.g., __init__, __str__, __repr__)
+                if not (node.name.startswith("__") and node.name.endswith("__")):
+                    functions.append(node.name)
+    except (SyntaxError, UnicodeDecodeError) as e:
+        print(f"Error parsing {file_path}: {e}")
+
+    return functions
+
+
 def count_class_occurrences(all_items):
     """Count occurrences of each class name across all Python files."""
     class_occurrences = defaultdict(list)  # class_name -> [file_path, ...]
@@ -46,6 +64,19 @@ def count_class_occurrences(all_items):
                 class_occurrences[class_name].append(item)
 
     return class_occurrences
+
+
+def count_function_occurrences(all_items):
+    """Count occurrences of each function name across all Python files."""
+    function_occurrences = defaultdict(list)  # function_name -> [file_path, ...]
+
+    for item in all_items:
+        if item.is_file and item.name.endswith(".py"):
+            functions = find_functions_in_file(item.absolute_path)
+            for function_name in functions:
+                function_occurrences[function_name].append(item)
+
+    return function_occurrences
 
 
 def search_files_and_folders(basedir) -> list:
@@ -166,6 +197,27 @@ def main():
         if count > 1:  # Only show classes that appear more than once
             print(f"Class '{class_name}' - Occurrences: {count}")
             # Optionally show first few file paths
+            for i, file_info in enumerate(file_infos[:3]):  # Show first 3 paths
+                print(f"  - {file_info.relative_path}")
+            if count > 3:
+                print(f"  ... and {count - 3} more")
+
+    # Count function occurrences
+    print("\n--- Function Occurrences (Sorted by count, descending) ---")
+    function_occurrences = count_function_occurrences(all_items)
+
+    # Sort function occurrences by count
+    sorted_function_occurrences = sorted(
+        function_occurrences.items(), key=lambda x: len(x[1]), reverse=True
+    )
+
+    min_occurrences_to_show = 2  # put this value higher to be less strict
+
+    for function_name, file_infos in sorted_function_occurrences:
+        count = len(file_infos)
+        if count >= min_occurrences_to_show:  # Configurable threshold
+            print(f"Function '{function_name}()' - Occurrences: {count}")
+            # Show first few file paths
             for i, file_info in enumerate(file_infos[:3]):  # Show first 3 paths
                 print(f"  - {file_info.relative_path}")
             if count > 3:
