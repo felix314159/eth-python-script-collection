@@ -86,13 +86,13 @@ def allow_invalid_mnemonic(mnemonic: str, x: int = 1):
 
 
 def main():
-    # here is an official example mnemonic, you can not just chose random words. never use keys derived from this in production  # noqa: E501
+    # here are two official example mnemonic, you can not just chose random words. never use keys derived from this in production  # noqa: E501
     # mnemonic = "abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"  # noqa: E501
     # generate_x_keys(mnemonic=mnemonic, x=20)
 
-    # example for using an invalid mnemonic (reth dev)
-    mnemonic = "test " * 12
-    allow_invalid_mnemonic(mnemonic=mnemonic, x=20)
+    mnemonic = "test " * 11 + "junk"  # used by reth dev for pre-alloc
+    generate_x_keys(mnemonic=mnemonic, x=20)
+    # allow_invalid_mnemonic(mnemonic=mnemonic, x=20)
 
 
 main()
