@@ -7,3 +7,4 @@ I sometimes dump ethereum-related Python scripts here, use at own risk ;)
 * `eip-checker.py`: Takes EIP number as input and returns which fork this EIP was included in (if at all). Also retrieves all other EIPs that were in this fork.
 * `find-duplicates.py`: Helper for finding duplicates (files, folders, classes, functions) in a large Python project.
 * `line_length_checker.py`: Counts amount of violations of MAX_LENGTH_PER_LINE rules (e.g. pep8's antique 79 rule)
+* `mnemonic_deriver.py`: Generates ethereum accounts for testing purposes (do not use in production!). Allows deriving key-address pairs from invalid mnemonics (e.g. reth's 12x test dev mode)
