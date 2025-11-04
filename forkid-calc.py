@@ -33,7 +33,6 @@ def main():
     MAINNET_GENESIS = "0xd4e56740f876aef8c010b86a40d5f56745a118d0906a34e69aec8c0db1cb8fa3"
    
     # future fork timestamps (subject to change)
-    # TODO: if u add new future fork also add it to the end of fork_times_postmerge
     BPO2 = 1_767_747_671
     BPO1 = 1_765_290_071
     OSAKA = 1_764_798_551
