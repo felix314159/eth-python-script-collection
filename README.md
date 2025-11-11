@@ -11,4 +11,5 @@ I sometimes dump ethereum-related Python scripts here, use at own risk ;)
 * `forkid-calc.py`: Calculates the EIP-2124/6122 forkid as a standalone script.
 * `line_length_checker.py`: Counts amount of violations of MAX_LENGTH_PER_LINE rules (e.g. pep8's antique 79 rule).
 * `./mnemonic/mnemonic_deriver.py`: Generates ethereum accounts for testing purposes. Generates valid mnemonics, derives accounts, mines vanity addresses, little pyramids stuff like that.
+* `./signatures_secp256k1-and-secp256r1/secp256k1_eth.py` and `./signatures_secp256k1-and-secp256r1/secp256r1_eth.py`: Locally sign messages and perform RPC call to locally running exec client. Contains examples to verify resulting signatures with third party tools too.
 * `vanity-address-cpu-miner-mulithreaded.py`: Minimal multithreaded CPU miner for vanity addresses ([CUDA version here](https://github.com/felix314159/cuda-eth-address-miner/blob/main/cuda-miner.cu)).
