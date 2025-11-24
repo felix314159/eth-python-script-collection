@@ -86,6 +86,8 @@ def main():
                         Path("osaka") / "blob_1339_cell_proofs_128.json",
                      ]
 
+    assert len(blob_filenames) < 7, "peerdas specifies 6 blocks per tx as upper limit. before osaka it was unspecified and client might or might not accept up to 9 blobs/tx"
+    
     # define tx details
     chain_id = SEPOLIA_CHAIN_ID
     nonce = 6
