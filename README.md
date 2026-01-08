@@ -13,4 +13,4 @@ I sometimes dump ethereum-related Python scripts here, use at own risk ;)
 * `./mnemonic/mnemonic_deriver.py`: Generates ethereum accounts for testing purposes. Generates valid mnemonics, derives accounts, mines vanity addresses, little pyramids stuff like that.
 * `./sign-send-various-tx/blob-sender.py`: Send one or multiple blobs, allows offline signing.
 * `./signatures_secp256k1-and-secp256r1/secp256k1_eth.py` and `./signatures_secp256k1-and-secp256r1/secp256r1_eth.py`: Locally sign messages and perform RPC call to locally running exec client. Contains examples to verify resulting signatures with third party tools too.
-* `vanity-address-cpu-miner-mulithreaded.py`: Minimal multithreaded CPU miner for vanity addresses ([CUDA version here](https://github.com/felix314159/cuda-eth/blob/main/cuda-miner.cu](https://github.com/felix314159/cuda-eth/blob/main/vanity-address-miner.cu)).
+* `vanity-address-cpu-miner-mulithreaded.py`: Minimal multithreaded CPU miner for vanity addresses ([CUDA version here](https://github.com/felix314159/cuda-eth/blob/main/vanity-address-miner.cu)).
