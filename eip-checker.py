@@ -6,6 +6,7 @@ import datetime
 
 # Map hardforks to their included EIPs
 # note: timestamps were acquired via foundry: 'cast block 1 --rpc-url https://eth.llamarpc.com | \grep timestamp'
+# or via official ethereum blog: https://ethereum.org/ethereum-forks/
 ETHEREUM_HARDFORKS = {
     "Frontier": {
         "block": 1,
@@ -100,13 +101,12 @@ ETHEREUM_HARDFORKS = {
     "Prague": {
         "block": 22_431_084,
         "timestamp": 1746612311, # Wed, 7 May 2025 10:05:11 +0000
-        "eips": [2537, 2935, 6110, 7002, 7251, 7549, 7623, 7642, 7685, 7691, 7702],
+        "eips": [2537, 2935, 6110, 7002, 7251, 7549, 7623, 7642, 7685, 7691, 7702], # 7642 is OPTIONAL here
     },
-    # Below is subject to change
     "Osaka": {
-        "block": 9999999999,
-        "timestamp": 9999999999,
-        "eips": [7594, 7642, 7823, 7825, 7883, 7892, 7917, 7918, 7935],
+        "block": 23_935_694,
+        "timestamp": 1764798551, # Wed, 3 Dec, 2025 9:49:11 PM +UTC
+        "eips": [7594, 7642, 7823, 7825, 7883, 7892, 7910, 7917, 7918, 7934, 7935, 7939, 7951], # 7642 is MANDATORY now
     },
 }
 
